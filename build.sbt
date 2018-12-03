@@ -11,7 +11,7 @@ sparkComponents ++= Seq("sql", "streaming")
 
 spDependencies += "datastax/spark-cassandra-connector:2.3.0-s_2.11"
 
-libraryDependencies += "org.apache.spark" % "spark-streaming-kafka-0-8_2.11" % "2.3.0"
+libraryDependencies += "org.apache.spark" % "spark-streaming-kafka-0-10_2.11" % "2.3.0"
 
 assemblyJarName in assembly := s"${name.value.replace(' ', '-')}-${version.value}.jar"
 
