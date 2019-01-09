@@ -5,23 +5,17 @@ version := "0.1"
 
 scalaVersion := "2.11.12"
 
-sparkVersion := "2.3.0"
+sparkVersion := "2.4.0"
 
-sparkComponents ++= Seq("sql", "streaming")
+sparkComponents ++= Seq("sql", "streaming", "sql-kafka-0-10", "streaming-kafka-0-10")
 
-spDependencies += "datastax/spark-cassandra-connector:2.3.0-s_2.11"
-
-libraryDependencies += "org.apache.spark" % "spark-streaming-kafka-0-10_2.11" % "2.3.0"
+spDependencies += s"datastax/spark-cassandra-connector:${sparkVersion.value}-s_2.11"
 
 assemblyJarName in assembly := s"${name.value.replace(' ', '-')}-${version.value}.jar"
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false)
 
 assemblyMergeStrategy in assembly := {
-  case m if m.toLowerCase.endsWith("manifest.mf") => MergeStrategy.discard
-  case m if m.toLowerCase.matches("meta-inf.*\\.sf$") => MergeStrategy.discard
-  case "log4j.properties" => MergeStrategy.discard
-  case m if m.toLowerCase.startsWith("meta-inf/services") => MergeStrategy.filterDistinctLines
-  case "reference.conf" => MergeStrategy.concat
-  case _ => MergeStrategy.first
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case x => MergeStrategy.first
 }
